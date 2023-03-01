@@ -1,9 +1,0 @@
-# Test dependencies go here.
--r base.txt
-coverage==3.7.1
-djet==0.0.9
-flake8==2.1.0
-mock==1.0.1
-model-mommy==1.2.1
-rebar==0.1
-splinter==0.6.0

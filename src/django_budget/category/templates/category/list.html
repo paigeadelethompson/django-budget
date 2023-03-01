@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Category List" %}{% endblock title %}
+
+{% block content %}
+
+<p>
+    <a class="btn btn-success" href="{% url 'category-add' %}">
+        <i class="glyphicon glyphicon-plus"></i>
+        {% trans "New Category" %}
+    </a>
+</p>
+
+<div id="categories" class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{% trans "Category List" %}</h3>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="sort" data-sort="id">#</th>
+                <th class="sort" data-sort="name">{% trans "Name" %}</th>
+                <th class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
+                        <input type="text" class="search form-control" placeholder="{% trans "Search..." %}" />
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody class="list">
+            {% if categories %}
+                {% for category in categories %}
+                    <tr>
+                        <td class="id">{{ category.id }}</td>
+                        <td class="name">{{ category.name }}</td>
+                        <td>
+                            <a href="{% url 'category-edit' category.slug %}" class="btn btn-default btn-sm"><i class="glyphicon 
+glyphicon-pencil"></i></a>
+                            <a href="{% url 'category-delete' category.slug %}" class="btn btn-default btn-sm"><i class="glyphicon 
+glyphicon-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">{% trans "No categories found." %}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'pagination.html' %}
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/list.min.js"></script>
+    <script type="text/javascript">
+        var options = {
+            valueNames: ['id', 'name']
+        };
+
+        var categoryList = new List('categories', options);
+    </script>
+{% endblock extra_js %}

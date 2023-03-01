@@ -1,3 +1,0 @@
-django-braces==1.4.0
-django-crispy-forms==1.4.0
-Django==1.6.5

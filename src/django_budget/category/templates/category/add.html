@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "Add A Category" %}{% endblock title %}
+
+{% block content %}
+
+<h2>{% trans "Add A Category" %}</h2>
+
+<form method="post" action="." class="col-md-6">
+    {% csrf_token %}
+
+    {{ form }}
+
+    <div class="form-actions">
+        <button type="submit" name="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <a href="{% url 'category-list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "django-budget"
+version = "0.1.0"
+description = "django-budget is a simple budgeting application for use with Django. It is designed to manage personal finances."
+license = "MIT"
+authors = ["Paige Thompson <paige@paige.bio>", "Elio E. Duarte <elio.esteves.duarte@gmail.com>"]
+#readme = "README.md"
+packages = [{include = "django_budget", from = "src"}, {include = "django_budget_host", from = "src"}, {include = "django_budget_manage", from = "src"}]
+include = [{path = "django_budget_host/pyproject.toml", format = "sdist"}]
+readme = "README.md"
+homepage = "https://github.com/paigeadelethompson/django-budget"
+documentation = "https://github.com/paigeadelethompson/django-budget"
+repository = "https://github.com/paigeadelethompson/django-budget"
+keywords = ["Django", "budget", "planning"]
+maintainers = ["Paige Thompson <paige@paige.bio>"]
+classifiers = [
+  "Programming Language :: Python"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "*"
+django-braces = "*"
+django-crispy-forms = "*"
+six = "*"
+ipython = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+django_budget_admin = "django_budget_manage:main"
