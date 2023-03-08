@@ -20,6 +20,10 @@ class BudgetViewListTest(BaseTestCase):
     view_class = BudgetListView
     url = reverse('budget-list')
 
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetViewListTest, cls).setUpClass()
+
     def test_view_with_no_budgets(self):
         response = self.get()
 
@@ -114,6 +118,10 @@ class BudgetAddViewTest(BaseTestCase):
         (MessageMiddleware, MiddlewareType.PROCESS_REQUEST),
     ]
 
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetAddViewTest, cls).setUpClass()
+
     def test_view_has_form_on_context(self):
         from django_budget.budget.forms import BudgetForm
 
@@ -200,6 +208,10 @@ class BudgetEditViewTest(BaseTestCase):
         (MessageMiddleware, MiddlewareType.PROCESS_REQUEST),
     ]
 
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetEditViewTest, cls).setUpClass()
+    
     def test_has_form_on_context(self):
         from django_budget.budget.forms import BudgetForm
 
@@ -290,6 +302,10 @@ class BudgetDeleteViewTest(BaseTestCase):
     from django_budget.budget.views import BudgetDeleteView
 
     view_class = BudgetDeleteView
+
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetDeleteViewTest, cls).setUpClass()
 
     def test_view_response_code_and_template_on_get(self):
         budget = mommy.make('Budget')

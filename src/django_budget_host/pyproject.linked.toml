@@ -27,6 +27,7 @@ django = "^4.1.7"
 django-braces = "^1.15.0"
 django-crispy-forms = "^2.0"
 six = "^1.16.0"
+werkzeug = "^2.2.3"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.11.0"

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.paginator import Page, Paginator
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from djet.testcases import MiddlewareType
 from model_mommy import mommy
@@ -16,9 +16,13 @@ from base.utils import BaseTestCase
 
 
 class BudgetEstimateListViewTest(BaseTestCase):
-    from budget.views import BudgetEstimateListView
+    from django_budget.budget.views import BudgetEstimateListView
 
     view_class = BudgetEstimateListView
+
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetEstimateListViewTest, cls).setUpClass()
 
     def test_view_with_no_estimates(self):
         budget = mommy.make('Budget')
@@ -115,7 +119,11 @@ class BudgetEstimateListViewTest(BaseTestCase):
 
 
 class EstimateCreateViewTest(BaseTestCase):
-    from budget.views import BudgetEstimateCreateView
+    from django_budget.budget.views import BudgetEstimateCreateView
+
+    @classmethod
+    def setUpClass(cls):
+        super(EstimateCreateViewTest, cls).setUpClass()
 
     view_class = BudgetEstimateCreateView
     middleware_classes = [
@@ -213,7 +221,11 @@ class EstimateCreateViewTest(BaseTestCase):
 
 
 class BudgetEstimateUpdateViewTest(BaseTestCase):
-    from budget.views import BudgetEstimateUpdateView
+    from django_budget.budget.views import BudgetEstimateUpdateView
+
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetEstimateUpdateViewTest, cls).setUpClass()
 
     view_class = BudgetEstimateUpdateView
     middleware_classes = [
@@ -320,8 +332,11 @@ class BudgetEstimateUpdateViewTest(BaseTestCase):
 
 
 class BudgetEstimateDeleteViewTest(BaseTestCase):
-    from budget.views import BudgetEstimateDeleteView
-
+    from django_budget.budget.views import BudgetEstimateDeleteView
+    
+    @classmethod
+    def setUpClass(cls):
+        super(BudgetEstimateDeleteViewTest, cls).setUpClass()
     view_class = BudgetEstimateDeleteView
 
     def test_view_reponse(self):
