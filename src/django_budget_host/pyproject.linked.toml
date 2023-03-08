@@ -19,16 +19,16 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-django = "*"
-django-braces = "*"
-django-crispy-forms = "*"
-six = "*"
-ipython = "*"
 pytz = "^2022.7.1"
 django-extensions = "^3.2.1"
 mock = "^5.0.1"
 djet = "^0.3.0"
 crispy-bootstrap3 = "^2022.1"
+django = "^4.1.7"
+django-braces = "^1.15.0"
+django-crispy-forms = "^2.0"
+six = "^1.16.0"
+ipython = "^8.11.0"
 
 [build-system]
 requires = ["poetry-core"]

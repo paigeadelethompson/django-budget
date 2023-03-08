@@ -28,8 +28,6 @@ jobs:
         poetry install
         poetry build 
         pip install dist/*.whl
-        django_budget_admin makemigrations budget
-        django_budget_admin makemigrations transaction
-        django_budget_admin makemigrations category
+        django_budget_admin makemigrations budget transaction category dashboard summary admin
         django_budget_admin migrate
         django_budget_admin test
