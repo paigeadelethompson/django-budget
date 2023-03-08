@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 
 from model_mommy import mommy
@@ -16,7 +16,7 @@ class CategoryModelTest(TestCase):
 
     def test_category_absolute_url(self):
         category = mommy.make('Category')
-        url = reverse('category:category_edit', kwargs={'slug': category.slug})
+        url = reverse('category-edit', kwargs={'slug': category.slug})
 
         self.assertEqual(url, category.get_absolute_url())
 
@@ -35,7 +35,7 @@ class CategoryModelTest(TestCase):
         self.assertEqual('Foo', str(category))
 
     def test_category_active_manager(self):
-        from category.models import Category
+        from django_budget.category.models import Category
 
         mommy.make(Category, is_deleted=True)
 

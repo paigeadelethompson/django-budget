@@ -11,7 +11,7 @@ from model_mommy import mommy
 class BudgetFormTest(TestCase):
 
     def test_form_save(self):
-        from budget.forms import BudgetForm
+        from django_budget.budget.forms import BudgetForm
 
         form_data = {'name': 'foo',
                      'start_date': date.today()}
@@ -20,7 +20,7 @@ class BudgetFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_form_save_should_populate_slug_field(self):
-        from budget.forms import BudgetForm
+        from django_budget.budget.forms import BudgetForm
 
         form_data = {'name': 'Foo Bar',
                      'start_date': date.today()}
@@ -35,7 +35,7 @@ class BudgetFormTest(TestCase):
 class BudgetEstimateForm(TestCase):
 
     def test_form_save(self):
-        from budget.forms import BudgetEstimateForm
+        from django_budget.budget.forms import BudgetEstimateForm
 
         category = mommy.make('Category')
         form_data = {'category': category.id, 'amount': Decimal('1.0')}
@@ -44,7 +44,7 @@ class BudgetEstimateForm(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_deleted_category_should_not_show_in_estimate_form(self):
-        from budget.forms import BudgetEstimateForm
+        from django_budget.budget.forms import BudgetEstimateForm
 
         category = mommy.make('Category', is_deleted=True)
         form = BudgetEstimateForm()

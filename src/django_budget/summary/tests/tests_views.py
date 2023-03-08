@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 from datetime import date, timedelta
 from decimal import Decimal
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from model_mommy import mommy
 
-from base.utils import BaseTestCase
+from django_budget.base.utils import BaseTestCase
 
 
 class SummaryArchiveViewTest(BaseTestCase):
-    from summary.views import SummaryArchiveView
+    from django_budget.summary.views import SummaryArchiveView
 
     view_class = SummaryArchiveView
 
@@ -30,7 +30,7 @@ class SummaryArchiveViewTest(BaseTestCase):
         self.assertIn(month, response.context_data['date_list'])
 
     def test_view_with_no_active_transaction(self):
-        from transaction.models import Transaction
+        from django_budget.transaction.models import Transaction
 
         mommy.make('Transaction', is_deleted=True)
         response = self.get()
@@ -68,28 +68,28 @@ class SummaryArchiveViewTest(BaseTestCase):
             "It looks like there haven't been any transactions, so there's nothing to show here.")
         self.assertContains(response, t1.date.year)
         self.assertContains(response, t1.date.strftime('%B'))
-        self.assertContains(response, reverse('summary:summary_year', kwargs={'year': t1.date.year}))
+        self.assertContains(response, reverse('summary-year', kwargs={'year': t1.date.year}))
         self.assertContains(
             response,
             reverse(
-                'summary:summary_month',
+                'summary-month',
                 kwargs={
                     'year': t1.date.year,
                     'month': t1.date.month}))
 
         self.assertContains(response, t2.date.year)
         self.assertContains(response, t2.date.strftime('%B'))
-        self.assertContains(response, reverse('summary:summary_year', kwargs={'year': t2.date.year}))
+        self.assertContains(response, reverse('summary-year', kwargs={'year': t2.date.year}))
         self.assertContains(
             response,
             reverse(
-                'summary:summary_month',
+                'summary-month',
                 kwargs={
                     'year': t2.date.year,
                     'month': t2.date.month}))
 
     def test_redirect_if_anonymous(self):
-        url = reverse('summary:summary_list')
+        url = reverse('summary-list')
         request = self.factory.get(path=url, user=self.anonymous_user)
         response = self.view(request)
 
@@ -97,13 +97,13 @@ class SummaryArchiveViewTest(BaseTestCase):
         self.assertEqual('%s?next=%s' % (reverse('login'), url), response._headers['location'][1])
 
     def get(self):
-        url = reverse('summary:summary_list')
+        url = reverse('summary-list')
         request = self.factory.get(path=url, user=self.mock_user)
         return self.view(request)
 
 
 class SummaryYearViewTest(BaseTestCase):
-    from summary.views import summary_year
+    from django_budget.summary.views import summary_year
 
     view_function = summary_year
 
@@ -190,7 +190,7 @@ class SummaryYearViewTest(BaseTestCase):
         t1 = mommy.make('Transaction', category=category, notes='Notes 1')
         t2 = mommy.make('Transaction', category=category, notes='Notes 2')
 
-        url = reverse('summary:summary_year', kwargs={'year': budget.start_date.year})
+        url = reverse('summary-year', kwargs={'year': budget.start_date.year})
         request = self.factory.get(path=url, user=self.mock_user)
         response = self.view(request, year=start_date.year)
 
@@ -217,7 +217,7 @@ class SummaryYearViewTest(BaseTestCase):
 
     def test_redirect_if_anonymous(self):
         year = 2014
-        url = reverse('summary:summary_year', kwargs={'year': year})
+        url = reverse('summary-year', kwargs={'year': year})
         request = self.factory.get(path=url, user=self.anonymous_user)
         response = self.view(request, year=year)
 
@@ -226,17 +226,17 @@ class SummaryYearViewTest(BaseTestCase):
 
     def get(self, year):
         self.login()
-        url = reverse('summary:summary_year', kwargs={'year': year})
+        url = reverse('summary-year', kwargs={'year': year})
         return self.client.get(url)
 
     def getf(self, year):
-        url = reverse('summary:summary_year', kwargs={'year': year})
+        url = reverse('summary-year', kwargs={'year': year})
         request = self.factory.get(path=url, user=self.mock_user)
         return self.view(request, year=year)
 
 
 class SummaryMonthViewTest(BaseTestCase):
-    from summary.views import summary_month
+    from django_budget.summary.views import summary_month
 
     view_function = summary_month
 
@@ -324,7 +324,7 @@ class SummaryMonthViewTest(BaseTestCase):
     def test_redirect_if_anonymous(self):
         year = 2014
         month = 1
-        url = reverse('summary:summary_month', kwargs={'year': year, 'month': month})
+        url = reverse('summary-month', kwargs={'year': year, 'month': month})
         request = self.factory.get(path=url, user=self.anonymous_user)
         response = self.view(request, year=year, month=month)
 
@@ -332,12 +332,12 @@ class SummaryMonthViewTest(BaseTestCase):
         self.assertEqual('%s?next=%s' % (reverse('login'), url), response._headers['location'][1])
 
     def get(self, year, month):
-        url = reverse('summary:summary_month', kwargs={'year': year, 'month': month})
+        url = reverse('summary-month', kwargs={'year': year, 'month': month})
         self.login()
         return self.client.get(url)
 
     def getf(self, year, month):
-        url = reverse('summary:summary_month', kwargs={'year': year, 'month': month})
+        url = reverse('summary-month', kwargs={'year': year, 'month': month})
         request = self.factory.get(path=url, user=self.mock_user)
         response = self.view(request, year=year, month=month)
         return response

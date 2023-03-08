@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from decimal import Decimal
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from model_mommy import mommy
 
@@ -102,7 +102,7 @@ class DashboardViewTest(BaseTestCase):
         self.assertContains(response, 'No recent expenses found.')
         self.assertContains(response, 'No recent incomes found.')
         self.assertContains(response, 'style="width: 0%;"')
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
 
     def test_html_contetn_with_a_transactions(self):
         from transaction.models import Transaction
@@ -118,13 +118,13 @@ class DashboardViewTest(BaseTestCase):
         self.assertTemplateUsed(response, 'dashboard.html')
         self.assertNotContains(response, 'No recent expenses found.')
         self.assertNotContains(response, 'No recent incomes found.')
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
 
-        self.assertContains(response, reverse('transaction:transaction_edit', kwargs={'pk': expense.id}))
+        self.assertContains(response, reverse('transaction-edit', kwargs={'pk': expense.id}))
         self.assertContains(response, expense.notes)
         self.assertContains(response, expense.date.strftime('%m/%d/%Y'))
 
-        self.assertContains(response, reverse('transaction:transaction_edit', kwargs={'pk': income.id}))
+        self.assertContains(response, reverse('transaction-edit', kwargs={'pk': income.id}))
         self.assertContains(response, income.notes)
         self.assertContains(response, income.date.strftime('%m/%d/%Y'))
 

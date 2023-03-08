@@ -5,6 +5,8 @@ from decimal import Decimal
 
 from django.test import TestCase
 
+from django_budget.transaction.models import Transaction
+
 from model_mommy import mommy
 
 
@@ -23,7 +25,7 @@ class BudgetModelTest(TestCase):
         self.assertTrue(budget.name, str(budget))
 
     def test_budget_active_manager(self):
-        from budget.models import Budget
+        from django_budget.budget.models import Budget
 
         mommy.make(Budget, is_deleted=True)
 
@@ -77,7 +79,7 @@ class BudgetModelTest(TestCase):
         self.assertEqual(Decimal('30.0'), estimates[1]['actual_amount'])
 
     def test_budget_most_current_for_date(self):
-        from budget.models import Budget
+        from django_budget.budget.models import Budget
 
         today = date.today()
         yesterday = today - timedelta(days=1)

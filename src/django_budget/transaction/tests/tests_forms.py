@@ -11,8 +11,8 @@ from model_mommy import mommy
 class TransactionFormTestCase(TestCase):
 
     def test_form_save(self):
-        from transaction.forms import TransactionForm
-        from transaction.models import Transaction
+        from django_budget.transaction.forms import TransactionForm
+        from django_budget.transaction.models import Transaction
 
         category = mommy.make('Category')
         form_data = {'transaction_type': Transaction.EXPENSE,
@@ -25,7 +25,7 @@ class TransactionFormTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_deleted_category_should_not_to_show_in_form(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         category = mommy.make('Category', is_deleted=True)
         form = TransactionForm()

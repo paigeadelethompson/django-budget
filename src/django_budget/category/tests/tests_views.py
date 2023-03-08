@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.paginator import Page, Paginator
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from djet.testcases import MiddlewareType
 from model_mommy import mommy

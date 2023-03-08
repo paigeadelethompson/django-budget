@@ -25,7 +25,7 @@ class BudgetEstimateModel(TestCase):
         self.assertEqual(u'Foo - 1.00', str(estimate))
 
     def test_estimate_active_manager(self):
-        from budget.models import BudgetEstimate as Estimate
+        from django_budget.budget.models import BudgetEstimate as Estimate
 
         mommy.make(Estimate, is_deleted=True)
 
@@ -53,7 +53,7 @@ class BudgetEstimateModel(TestCase):
         self.assertNotIn(t, list(estimate.actual_transactions(start_date, end_date)))
 
     def test_estimate_actual_transactions_with_income_transaction(self):
-        from transaction.models import Transaction
+        from django_budget.transaction.models import Transaction
 
         category = mommy.make('Category')
         t = mommy.make('Transaction', transaction_type=Transaction.INCOME, category=category)

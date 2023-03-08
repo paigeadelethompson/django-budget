@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from decimal import Decimal
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpRequest
 from django.test import TestCase
 
@@ -10,7 +10,7 @@ from django.test import TestCase
 class TagNavActiveTestCase(TestCase):
 
     def setUp(self):
-        from base.templatetags.active_tags import navactive
+        from django_budget.base.templatetags.active_tags import navactive
 
         self.tag = navactive
         self.request = HttpRequest()
@@ -43,7 +43,7 @@ class TagNavActiveTestCase(TestCase):
 class TagPaginationActiveTestCase(TestCase):
 
     def setUp(self):
-        from base.templatetags.active_tags import pagactive
+        from django_budget.base.templatetags.active_tags import pagactive
 
         self.tag = pagactive
         self.request = HttpRequest()
@@ -60,7 +60,7 @@ class TagPaginationActiveTestCase(TestCase):
 class TagColarizeAmountTestCase(TestCase):
 
     def setUp(self):
-        from base.templatetags.budget_tags import colorize_amount
+        from django_budget.base.templatetags.budget_tags import colorize_amount
 
         self.tag = colorize_amount
 
@@ -81,7 +81,7 @@ class TagColarizeAmountTestCase(TestCase):
         self.assertEqual('success', self.tag(Decimal('100'), Decimal('0')))
 
     def test_tag_make_decimal(self):
-        from base.templatetags.budget_tags import make_decimal
+        from django_budget.base.templatetags.budget_tags import make_decimal
 
         self.assertEqual(Decimal('1'), make_decimal(1))
         self.assertEqual(Decimal('1'), make_decimal('1'))

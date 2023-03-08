@@ -4,19 +4,19 @@ from django.contrib import messages
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.paginator import Page, Paginator
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from djet.testcases import MiddlewareType
 from model_mommy import mommy
 from rebar.testing import flatten_to_dict
 
-from base.utils import BaseTestCase
+from django_budget.base.utils import BaseTestCase
 
 
 class TransactionListViewTest(BaseTestCase):
-    from transaction.views import TransactionListView
+    from django_budget.transaction.views import TransactionListView
 
-    url = reverse('transaction:transaction_list')
+    url = reverse('transaction-list')
     view_class = TransactionListView
 
     def test_view_with_no_transaction(self):
@@ -24,7 +24,7 @@ class TransactionListViewTest(BaseTestCase):
 
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, 'transaction/list.html')
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
         self.assertIsInstance(response.context_data['paginator'], Paginator)
         self.assertIsInstance(response.context_data['page_obj'], Page)
         self.assertFalse(response.context_data['is_paginated'])
@@ -36,7 +36,7 @@ class TransactionListViewTest(BaseTestCase):
 
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, 'transaction/list.html')
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
         self.assertIsInstance(response.context_data['paginator'], Paginator)
         self.assertIsInstance(response.context_data['page_obj'], Page)
         self.assertFalse(response.context_data['is_paginated'])
@@ -75,7 +75,7 @@ class TransactionListViewTest(BaseTestCase):
         self.assertNotContains(response, 'INVALID VARIABLE:')
         self.assertContains(response, 'Transaction List', count=2)
         self.assertContains(response, 'New Transaction')
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
         self.assertContains(response, 'No transactions found.')
 
     def test_html_content_with_a_transaction(self):
@@ -85,7 +85,7 @@ class TransactionListViewTest(BaseTestCase):
 
         self.assertNotContains(response, 'INVALID VARIABLE:')
         self.assertContains(response, 'Transaction List', count=2)
-        self.assertContains(response, reverse('transaction:transaction_add'))
+        self.assertContains(response, reverse('transaction-add'))
         self.assertNotContains(response, 'No transactions found.')
         self.assertContains(response, transaction.id)
         self.assertContains(response, transaction.notes)
@@ -93,8 +93,8 @@ class TransactionListViewTest(BaseTestCase):
         self.assertContains(response, transaction.date.strftime('%m/%d/%Y'))
         self.assertContains(response, transaction.category.name)
         self.assertContains(response, transaction.amount)
-        self.assertContains(response, reverse('transaction:transaction_edit', kwargs={'pk': transaction.id}))
-        self.assertContains(response, reverse('transaction:transaction_delete', kwargs={'pk': transaction.id}))
+        self.assertContains(response, reverse('transaction-edit', kwargs={'pk': transaction.id}))
+        self.assertContains(response, reverse('transaction-delete', kwargs={'pk': transaction.id}))
 
     def test_view_redirect_if_anonymous(self):
         request = self.factory.get(path=self.url, user=self.anonymous_user)
@@ -110,9 +110,9 @@ class TransactionListViewTest(BaseTestCase):
 
 
 class TransactionAddViewTest(BaseTestCase):
-    from transaction.views import TransactionCreateView
+    from django_budget.transaction.views import TransactionCreateView
 
-    url = url = reverse('transaction:transaction_add')
+    url = url = reverse('transaction-add')
     view_class = TransactionCreateView
     middleware_classes = [
         SessionMiddleware,
@@ -120,7 +120,7 @@ class TransactionAddViewTest(BaseTestCase):
     ]
 
     def test_has_form_on_context(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         response = self.get()
 
@@ -137,13 +137,13 @@ class TransactionAddViewTest(BaseTestCase):
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, 'transaction/add.html')
         self.assertEqual(4, len(form.errors))
-        self.assertTrue(form['transaction_type'].errors)
+        self.assertTrue(form['transaction-type'].errors)
         self.assertTrue(form['category'].errors)
         self.assertTrue(form['amount'].errors)
         self.assertTrue(form['date'].errors)
 
     def test_redirects_after_save(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         category = mommy.make('Category')
         transaction = mommy.prepare('Transaction', category=category)
@@ -151,11 +151,11 @@ class TransactionAddViewTest(BaseTestCase):
         _, response = self.post(form_data)
 
         self.assertEqual(302, response.status_code)
-        self.assertEqual(('Location', reverse('transaction:transaction_list')), response._headers['location'])
+        self.assertEqual(('Location', reverse('transaction-list')), response._headers['location'])
 
     def test_confirm_saved_object(self):
-        from transaction.models import Transaction
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.models import Transaction
+        from django_budget.transaction.forms import TransactionForm
 
         category = mommy.make('Category')
         old = mommy.prepare('Transaction', category=category)
@@ -171,14 +171,14 @@ class TransactionAddViewTest(BaseTestCase):
         self.assertEqual(old.date, new.date)
 
     def test_show_aleter_message_after_save(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         category = mommy.make('Category')
         old = mommy.prepare('Transaction', category=category)
         form_data = flatten_to_dict(TransactionForm(instance=old))
         request, response = self.post(form_data)
 
-        self.assert_redirect(response, reverse('transaction:transaction_list'))
+        self.assert_redirect(response, reverse('transaction-list'))
         message = 'Transaction was created successfuly!'
         self.assert_message_exists(request, messages.SUCCESS, message)
 
@@ -191,7 +191,7 @@ class TransactionAddViewTest(BaseTestCase):
         self.assertContains(response, 'id="id_category"')
         self.assertContains(response, 'id="id_amount"')
         self.assertContains(response, 'id="id_date"')
-        self.assertContains(response, reverse('transaction:transaction_list'))
+        self.assertContains(response, reverse('transaction-list'))
 
     def test_view_redirect_if_anonymous(self):
         request = self.factory.get(path=self.url, user=self.anonymous_user)
@@ -211,7 +211,7 @@ class TransactionAddViewTest(BaseTestCase):
 
 
 class TransactionEditViewTest(BaseTestCase):
-    from transaction.views import TransactionUpdateView
+    from django_budget.transaction.views import TransactionUpdateView
 
     view_class = TransactionUpdateView
     middleware_classes = [
@@ -220,7 +220,7 @@ class TransactionEditViewTest(BaseTestCase):
     ]
 
     def test_has_form_on_context(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         transaction = mommy.make('Transaction')
         response = self.get(transaction)
@@ -239,25 +239,25 @@ class TransactionEditViewTest(BaseTestCase):
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, 'transaction/add.html')
         self.assertEqual(4, len(form.errors))
-        self.assertTrue(form['transaction_type'].errors)
+        self.assertTrue(form['transaction-type'].errors)
         self.assertTrue(form['category'].errors)
         self.assertTrue(form['amount'].errors)
         self.assertTrue(form['date'].errors)
         self.assertFalse(form['notes'].errors)
 
     def test_redirects_after_save(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         transaction = mommy.make('Transaction')
         form_data = flatten_to_dict(TransactionForm(instance=transaction))
         _, response = self.post(transaction, form_data)
 
         self.assertEqual(302, response.status_code)
-        self.assertEqual(reverse('transaction:transaction_list'), response._headers['location'][1])
+        self.assertEqual(reverse('transaction-list'), response._headers['location'][1])
 
     def test_confirm_saved_object(self):
-        from transaction.models import Transaction
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.models import Transaction
+        from django_budget.transaction.forms import TransactionForm
 
         old = mommy.make('Transaction', notes='Foo')
         form_data = flatten_to_dict(TransactionForm(instance=old))
@@ -273,13 +273,13 @@ class TransactionEditViewTest(BaseTestCase):
         self.assertEqual(old.date, new.date)
 
     def test_show_alert_message_after_save(self):
-        from transaction.forms import TransactionForm
+        from django_budget.transaction.forms import TransactionForm
 
         old = mommy.make('Transaction')
         form_data = flatten_to_dict(TransactionForm(instance=old))
         request, response = self.post(old, form_data)
 
-        self.assert_redirect(response, reverse('transaction:transaction_list'))
+        self.assert_redirect(response, reverse('transaction-list'))
         message = 'Transaction was updated successfuly!'
         self.assert_message_exists(request, messages.SUCCESS, message)
 
@@ -294,12 +294,12 @@ class TransactionEditViewTest(BaseTestCase):
         self.assertContains(response, transaction.notes)
         self.assertContains(response, transaction.category.name)
         self.assertContains(response, transaction.date)
-        self.assertContains(response, reverse('transaction:transaction_list'))
-        self.assertContains(response, reverse('transaction:transaction_delete', kwargs={'pk': transaction.pk}))
+        self.assertContains(response, reverse('transaction-list'))
+        self.assertContains(response, reverse('transaction-delete', kwargs={'pk': transaction.pk}))
 
     def test_view_redirect_if_anonymous(self):
         pk = 1
-        url = reverse('transaction:transaction_edit', kwargs={'pk': pk})
+        url = reverse('transaction-edit', kwargs={'pk': pk})
         request = self.factory.get(path=url, user=self.anonymous_user)
         response = self.view(request, pk=pk)
 
@@ -307,19 +307,19 @@ class TransactionEditViewTest(BaseTestCase):
         self.assertEqual('%s?next=%s' % (reverse('login'), url), response._headers['location'][1])
 
     def get(self, transaction):
-        url = reverse('transaction:transaction_edit', kwargs={'pk': transaction.id})
+        url = reverse('transaction-edit', kwargs={'pk': transaction.id})
         request = self.factory.get(path=url, user=self.mock_user)
         response = self.view(request, pk=transaction.id)
         return response.render()
 
     def post(self, transaction, form_data):
-        url = reverse('transaction:transaction_edit', kwargs={'pk': transaction.id})
+        url = reverse('transaction-edit', kwargs={'pk': transaction.id})
         request = self.factory.post(path=url, data=form_data, user=self.mock_user)
         return request, self.view(request, pk=transaction.id)
 
 
 class TransactionDeleteViewTest(BaseTestCase):
-    from transaction.views import TransactionDeleteView
+    from django_budget.transaction.views import TransactionDeleteView
 
     view_class = TransactionDeleteView
 
@@ -335,10 +335,10 @@ class TransactionDeleteViewTest(BaseTestCase):
         response = self.post(transaction)
 
         self.assertEqual(302, response.status_code)
-        self.assertEqual(('Location', reverse('transaction:transaction_list')), response._headers['location'])
+        self.assertEqual(('Location', reverse('transaction-list')), response._headers['location'])
 
     def test_confirm_deleted_object(self):
-        from transaction.models import Transaction
+        from django_budget.transaction.models import Transaction
 
         old_transaction = mommy.make('Transaction')
         self.post(old_transaction)
@@ -355,11 +355,11 @@ class TransactionDeleteViewTest(BaseTestCase):
         self.assertNotContains(response, 'INVALID VARIABLE:')
         self.assertContains(response, 'Delete Transaction', count=2)
         self.assertContains(response, 'Are you sure you want to delete "%s"?' % transaction)
-        self.assertContains(response, reverse('transaction:transaction_list'))
+        self.assertContains(response, reverse('transaction-list'))
 
     def test_view_redirect_if_anonymous(self):
         pk = 1
-        url = reverse('transaction:transaction_delete', kwargs={'pk': pk})
+        url = reverse('transaction-delete', kwargs={'pk': pk})
         request = self.factory.get(path=url, user=self.anonymous_user)
         response = self.view(request, pk=pk)
 
@@ -367,13 +367,13 @@ class TransactionDeleteViewTest(BaseTestCase):
         self.assertEqual('%s?next=%s' % (reverse('login'), url), response._headers['location'][1])
 
     def get(self, transaction):
-        url = reverse('transaction:transaction_delete', kwargs={'pk': transaction.id})
+        url = reverse('transaction-delete', kwargs={'pk': transaction.id})
         request = self.factory.get(path=url, user=self.mock_user)
         response = self.view(request, pk=transaction.id)
         return response.render()
 
     def post(self, transaction):
-        url = reverse('transaction:transaction_delete', kwargs={'pk': transaction.id})
+        url = reverse('transaction-delete', kwargs={'pk': transaction.id})
         request = self.factory.post(path=url, user=self.mock_user)
         response = self.view(request, pk=transaction.id)
         return response
