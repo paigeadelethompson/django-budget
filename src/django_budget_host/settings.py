@@ -112,9 +112,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-    
+
 DEFAULT_AUTO_FIELD = conf.default_auto_field()
 
-from settings import *
 sys.path.insert(0, str(conf.get_dot_directory()))
+from settings import *
 sys.path.pop(0)
