@@ -9,8 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
-from settings import *
 from django_budget_host.wrapping_paper import conf, secret_key_not_configured
 import sys
 
@@ -114,8 +112,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-
+    
 DEFAULT_AUTO_FIELD = conf.default_auto_field()
 
+from settings import *
 sys.path.insert(0, str(conf.get_dot_directory()))
 sys.path.pop(0)
