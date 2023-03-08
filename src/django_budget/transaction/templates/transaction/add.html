@@ -16,12 +16,12 @@
 <form method="post" action="." class="form-horizontal">
     {% csrf_token %}
 
-    {% crispy form %}
+    {{form|crispy}}
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-            <a href="{% url 'transaction:transaction_list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+            <a href="{% url 'transaction-list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
         </div>
     </div>
 </form>

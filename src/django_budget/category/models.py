@@ -28,7 +28,7 @@ class Category(StandardMetadata):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('category:category_edit', args=[self.slug])
+        return reverse('category-edit', args=[self.slug])
 
     class Meta:
         verbose_name = _('Category')

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
-{% load staticfiles %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
@@ -22,7 +22,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-            <a href="{% url 'budget:budget_list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+            <a href="{% url 'budget-list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
         </div>
     </form>
 </div>
@@ -31,7 +31,7 @@
 
 <p>
     {% trans "You can also" %}
-    <a href="{% url 'budget:budget_delete' budget.slug %}">{% trans "delete" %}</a>
+    <a href="{% url 'budget-delete' budget.slug %}">{% trans "delete" %}</a>
     {% trans "this budget." %}
 </p>
 

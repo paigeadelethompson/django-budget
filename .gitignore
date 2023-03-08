@@ -37,4 +37,4 @@ pole
 sdist
 *.sqlite3
 */assets/*
-*/migrations/*
+migrations/

@@ -31,7 +31,7 @@
                                 <td>{{ expense.notes }}</td>
                                 <td>{{ expense.date|date:"SHORT_DATE_FORMAT" }}</td>
                                 <td class="numeric">
-                                    <a href="{% url 'transaction:transaction_edit' expense.id %}">
+                                    <a href="{% url 'transaction-edit' expense.id %}">
                                         {% trans "$" %} {{ expense.amount|stringformat:".02f" }}
                                     </a>
                                 </td>
@@ -68,7 +68,7 @@
                                 <td>{{ income.notes }}</td>
                                 <td>{{ income.date|date:"SHORT_DATE_FORMAT" }}</td>
                                 <td class="numeric">
-                                    <a href="{% url 'transaction:transaction_edit' income.id %}">{% trans "$" %} {{ income.amount|stringformat:".02f" }}</a>
+                                    <a href="{% url 'transaction-edit' income.id %}">{% trans "$" %} {{ income.amount|stringformat:".02f" }}</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -84,7 +84,7 @@
 </div>
 
 <p>
-    <a class="btn btn-success" href="{% url 'transaction:transaction_add' %}"><i class="glyphicon glyphicon-plus"></i> {% trans "New Transaction" %}</a>
+    <a class="btn btn-success" href="{% url 'transaction-add' %}"><i class="glyphicon glyphicon-plus"></i> {% trans "New Transaction" %}</a>
 </p>
 
 <br />

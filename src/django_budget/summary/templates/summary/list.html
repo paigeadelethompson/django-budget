@@ -17,10 +17,10 @@
                         <br />
                     {% endif %}
 
-                    <a href="{% url 'summary:summary_year' date.year %}" class="list-group-item active">{{ date.year }}</a>
+                    <a href="{% url 'summary-year' date.year %}" class="list-group-item active">{{ date.year }}</a>
                 {% endifchanged %}
 
-                <a href="{% url 'summary:summary_month' date.year date.month %}" class="list-group-item">{{ date|date:"F" }}</a>
+                <a href="{% url 'summary-month' date.year date.month %}" class="list-group-item">{{ date|date:"F" }}</a>
             {% endfor %}
         </div>
     </div>

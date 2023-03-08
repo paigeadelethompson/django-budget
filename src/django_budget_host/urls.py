@@ -13,8 +13,10 @@ from django_budget.base.views import setup
 from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
-    re_path(r'^login/$', LoginView.as_view(), name='login'),
-    re_path(r'^logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^$', dashboard, name='dashboard'),
+    re_path(r'^accounts/login/$', LoginView.as_view(), name='login'),
+    re_path(r'^accounts/logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^accounts/profile/$', dashboard, name='profile'),
     re_path(r'^dashboard/$', dashboard, name='dashboard'),
     re_path(r'^setup/$', setup, name='setup'),
     path("admin/", admin.site.urls),

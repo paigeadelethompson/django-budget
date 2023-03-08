@@ -44,7 +44,7 @@ class Transaction(StandardMetadata):
                                         db_index=True)
     category = models.ForeignKey(Category,
                                  verbose_name=_('Category'),
-                                 limit_choices_to={'is_deleted': False}, on_delete=models.CASCADE)
+                                 limit_choices_to={'is_deleted': False}, on_delete=models.DO_NOTHING)
     notes = models.TextField(_('Notes'), max_length=255, blank=True)
     amount = models.DecimalField(_('Amount'), max_digits=11, decimal_places=2)
     date = models.DateField(_('Date'), db_index=True, default=date.today)

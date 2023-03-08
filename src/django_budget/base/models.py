@@ -22,4 +22,4 @@ class StandardMetadata(models.Model):
 
 class ActiveManager(models.Manager):
     def get_query_set(self):
-        return super(ActiveManager, self).get_query_set().filter(is_deleted=False)
+        return super(ActiveManager, self).get_queryset().filter(is_deleted=False)

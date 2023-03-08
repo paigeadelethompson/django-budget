@@ -3,7 +3,7 @@ from django_budget.transaction.views import transaction_list, transaction_add, t
 
 urlpatterns = [
     re_path(r'^$', transaction_list, name="transaction-list"),
-    re_path(r'^add/$', transaction_add, name="transaction-list"),
-    re_path(r'^edit/(?P<pk>\d+)/$', transaction_edit, name="transaction-list"),
-    re_path(r'^delete/(?P<pk>\d+)/$', transaction_delete, name="transaction-list"),
+    re_path(r'^add/$', transaction_add, name="transaction-add"),
+    re_path(r'^edit/(?P<pk>\d+)/$', transaction_edit, name="transaction-edit"),
+    re_path(r'^delete/(?P<pk>\d+)/$', transaction_delete, name="transaction-delete"),
 ]

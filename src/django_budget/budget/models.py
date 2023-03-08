@@ -75,11 +75,11 @@ class BudgetEstimate(StandardMetadata):
     budget = models.ForeignKey(Budget,
                                related_name='estimates',
                                verbose_name=_('Budget'),
-                               limit_choices_to={'is_deleted': False}, on_delete=models.CASCADE)
+                               limit_choices_to={'is_deleted': False}, on_delete=models.DO_NOTHING)
     category = models.ForeignKey(Category,
                                  related_name='estimates',
                                  verbose_name=_('Category'),
-                                 limit_choices_to={'is_deleted': False}, on_delete=models.CASCADE)
+                                 limit_choices_to={'is_deleted': False}, on_delete=models.DO_NOTHING)
     amount = models.DecimalField(_('Amount'), max_digits=11, decimal_places=2)
 
     objects = models.Manager()

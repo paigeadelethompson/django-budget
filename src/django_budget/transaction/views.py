@@ -38,16 +38,17 @@ class TransactionUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView)
     template_name = 'transaction/edit.html'
     form_class = TransactionForm
     success_url = reverse_lazy('transaction-list')
-    success_message = _('Transaction was updated successfuly!')
+    success_message = _('Transaction was updated successfully!')
 
 
 transaction_edit = TransactionUpdateView.as_view()
 
 
-class TransactionDeleteView(LoginRequiredMixin, DeleteView):
+class TransactionDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Transaction
     template_name = 'transaction/delete.html'
     success_url = reverse_lazy('transaction-list')
+    success_message = _('Transaction was deleted!')
 
 
 transaction_delete = TransactionDeleteView.as_view()

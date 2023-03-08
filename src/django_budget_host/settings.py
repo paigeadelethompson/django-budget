@@ -10,29 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from settings import *
+from django_budget_host.wrapping_paper import conf, secret_key_not_configured
+import sys
+
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3=ike#-+&__(e^(i6_r^hq0l=d5f&cjx^b5hrt=!0iouvr33a!'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+BASE_DIR = conf.get_project_root()
+DOT_DIR = conf.get_dot_directory()
+SECRET_KEY = secret_key_not_configured()
 DEBUG = True
-
 ALLOWED_HOSTS = []
+LOGGING = conf.default_logging()
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# Application definition
-
 INSTALLED_APPS = [
     'crispy_forms',
+    "crispy_bootstrap3",
     'django_budget.base',
     'django_budget.budget',
     'django_budget.category',
@@ -45,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -59,10 +55,20 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_budget_host.urls'
 
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+]
+
+TEMPLATE_LOADERS = [
+    "django.template.loaders.filesystem.Loader",
+    "django.template.loaders.app_directories.Loader",
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['django_budget_templates/'],
+        'DIRS': [BASE_DIR / "templates/default"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,20 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_budget_host.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+DATABASES = conf.default_database()
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -107,29 +100,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = conf.default_language_code()
+TIME_ZONE = conf.default_timezone()
 USE_I18N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+MEDIA_ROOT = conf.create_dir_if_not_exists(DOT_DIR / 'media')
+MEDIA_URL = '/files/'
+STATIC_ROOT = conf.create_dir_if_not_exists(DOT_DIR / 'static')
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = [
-    str(Path(__file__).resolve().parent) + "/static/",
+    BASE_DIR / "static"
 ]
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = conf.default_auto_field()
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+sys.path.insert(0, str(conf.get_dot_directory()))
+sys.path.pop(0)

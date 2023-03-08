@@ -24,6 +24,11 @@ django-braces = "*"
 django-crispy-forms = "*"
 six = "*"
 ipython = "*"
+pytz = "^2022.7.1"
+django-extensions = "^3.2.1"
+mock = "^5.0.1"
+djet = "^0.3.0"
+crispy-bootstrap3 = "^2022.1"
 
 [build-system]
 requires = ["poetry-core"]

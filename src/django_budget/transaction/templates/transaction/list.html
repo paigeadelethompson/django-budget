@@ -7,7 +7,7 @@
 {% block content %}
 
 <p>
-    <a class="btn btn-success" href="{% url 'transaction:transaction_add' %}">
+    <a class="btn btn-success" href="{% url 'transaction-add' %}">
         <i class="glyphicon glyphicon-plus" class="glyphicon glyphicon-plus"></i>
         {% trans "New Transaction" %}
     </a>
@@ -51,10 +51,10 @@
                                $ {{ amount }}
                             {% endblocktrans %}
                         <td>
-                            <a href="{% url 'transaction:transaction_edit' transaction.id %}" class="btn btn-default btn-sm">
+                            <a href="{% url 'transaction-edit' transaction.id %}" class="btn btn-default btn-sm">
                                 <i class="glyphicon glyphicon-pencil"></i>
                             </a>
-                            <a href="{% url 'transaction:transaction_delete' transaction.id %}" class="btn btn-default btn-sm">
+                            <a href="{% url 'transaction-delete' transaction.id %}" class="btn btn-default btn-sm">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                         </td>
