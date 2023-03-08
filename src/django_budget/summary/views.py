@@ -21,6 +21,7 @@ class SummaryArchiveView(LoginRequiredMixin, ArchiveIndexView):
     queryset = Transaction.active.all()
     allow_empty = True
 
+
 summary_list = SummaryArchiveView.as_view()
 
 

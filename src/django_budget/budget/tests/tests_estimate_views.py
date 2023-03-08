@@ -90,7 +90,13 @@ class BudgetEstimateListViewTest(BaseTestCase):
         self.assertContains(response, estimate.id)
         self.assertContains(response, reverse('budget:estimate_edit', kwargs={'slug': budget.slug, 'pk': estimate.id}))
         self.assertContains(response, estimate.category.name)
-        self.assertContains(response, reverse('budget:estimate_delete', kwargs={'slug': budget.slug, 'pk': estimate.id}))
+        self.assertContains(
+            response,
+            reverse(
+                'budget:estimate_delete',
+                kwargs={
+                    'slug': budget.slug,
+                    'pk': estimate.id}))
 
     def test_redirect_if_anonymous(self):
         slug = 'foo'
@@ -281,7 +287,13 @@ class BudgetEstimateUpdateViewTest(BaseTestCase):
 
         self.assertContains(response, 'Edit Estimate', count=2)
         self.assertContains(response, estimate.category)
-        self.assertContains(response, reverse('budget:estimate_delete', kwargs={'slug': budget.slug, 'pk': estimate.pk}))
+        self.assertContains(
+            response,
+            reverse(
+                'budget:estimate_delete',
+                kwargs={
+                    'slug': budget.slug,
+                    'pk': estimate.pk}))
         self.assertContains(response, reverse('budget:budget_list'))
 
     def test_redirect_if_anonymous(self):

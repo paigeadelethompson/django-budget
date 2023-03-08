@@ -29,5 +29,5 @@ class TransactionForm(forms.ModelForm):
             Field('notes'))
 
     class Meta:
-#        model = Transaction
+        #        model = Transaction
         widgets = {'date': DatePickerInput()}

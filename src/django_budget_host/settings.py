@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-   str(Path(__file__).resolve().parent) + "/static/",
+    str(Path(__file__).resolve().parent) + "/static/",
 ]
 
 # Default primary key field type

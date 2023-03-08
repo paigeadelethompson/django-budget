@@ -54,23 +54,39 @@ class SummaryArchiveViewTest(BaseTestCase):
         response = self.get()
 
         self.assertContains(response, 'Summaries', count=3)
-        self.assertContains(response, "It looks like there haven't been any transactions, so there's nothing to show here.")
+        self.assertContains(
+            response,
+            "It looks like there haven't been any transactions, so there's nothing to show here.")
 
     def test_html_content_with_two_transactions_in_different_years(self):
         t1 = mommy.make('Transaction')
         t2 = mommy.make('Transaction', date=t1.date - timedelta(days=360))
         response = self.get()
 
-        self.assertNotContains(response, "It looks like there haven't been any transactions, so there's nothing to show here.")
+        self.assertNotContains(
+            response,
+            "It looks like there haven't been any transactions, so there's nothing to show here.")
         self.assertContains(response, t1.date.year)
         self.assertContains(response, t1.date.strftime('%B'))
         self.assertContains(response, reverse('summary:summary_year', kwargs={'year': t1.date.year}))
-        self.assertContains(response, reverse('summary:summary_month', kwargs={'year': t1.date.year, 'month': t1.date.month}))
+        self.assertContains(
+            response,
+            reverse(
+                'summary:summary_month',
+                kwargs={
+                    'year': t1.date.year,
+                    'month': t1.date.month}))
 
         self.assertContains(response, t2.date.year)
         self.assertContains(response, t2.date.strftime('%B'))
         self.assertContains(response, reverse('summary:summary_year', kwargs={'year': t2.date.year}))
-        self.assertContains(response, reverse('summary:summary_month', kwargs={'year': t2.date.year, 'month': t2.date.month}))
+        self.assertContains(
+            response,
+            reverse(
+                'summary:summary_month',
+                kwargs={
+                    'year': t2.date.year,
+                    'month': t2.date.month}))
 
     def test_redirect_if_anonymous(self):
         url = reverse('summary:summary_list')

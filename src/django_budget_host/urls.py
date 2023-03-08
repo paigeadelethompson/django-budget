@@ -18,7 +18,7 @@ urlpatterns = [
     re_path(r'^dashboard/$', dashboard, name='dashboard'),
     re_path(r'^setup/$', setup, name='setup'),
     path("admin/", admin.site.urls),
-    path("budget/", include(django_budget.budget.urls), name = "index"),
+    path("budget/", include(django_budget.budget.urls), name="index"),
     path("budget/category/", include(django_budget.category.urls)),
     path("budget/summary/", include(django_budget.summary.urls)),
     path("budget/transaction/", include(django_budget.transaction.urls)),

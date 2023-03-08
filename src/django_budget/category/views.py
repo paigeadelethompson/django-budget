@@ -18,6 +18,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     queryset = Category.active.all()
     paginate_by = 10
 
+
 category_list = CategoryListView.as_view()
 
 
@@ -39,6 +40,7 @@ class CategoryUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('category-list')
     success_message = _('Category %(name)s was updated successfully!')
 
+
 category_edit = CategoryUpdateView.as_view()
 
 
@@ -46,5 +48,6 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'category/delete.html'
     success_url = reverse_lazy('category-list')
+
 
 category_delete = CategoryDeleteView.as_view()

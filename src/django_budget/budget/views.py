@@ -11,6 +11,7 @@ from braces.views import LoginRequiredMixin
 from .forms import BudgetEstimateForm, BudgetForm
 from .models import Budget, BudgetEstimate
 
+
 class BudgetListView(LoginRequiredMixin, ListView):
     model = Budget
     template_name = 'budget/list.html'
@@ -29,6 +30,7 @@ class BudgetCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('budget-list')
     success_message = _('Budget %(name)s was created successfuly!')
 
+
 budget_add = BudgetCreateView.as_view()
 
 
@@ -39,6 +41,7 @@ class BudgetUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('budget-list')
     success_message = _('Budget %(name)s was updated successfuly!')
 
+
 budget_edit = BudgetUpdateView.as_view()
 
 
@@ -46,6 +49,7 @@ class BudgetDeleteView(LoginRequiredMixin, DeleteView):
     model = Budget
     template_name = "budget/delete.html"
     success_url = reverse_lazy('budget-list')
+
 
 budget_delete = BudgetDeleteView.as_view()
 
@@ -64,6 +68,7 @@ class BudgetEstimateListView(LoginRequiredMixin, ListView):
         context['budget'] = budget
         return context
 
+
 estimate_list = BudgetEstimateListView.as_view()
 
 
@@ -81,6 +86,7 @@ class BudgetEstimateCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateVi
         form.instance.budget = budget
         return super(BudgetEstimateCreateView, self).form_valid(form)
 
+
 estimate_add = BudgetEstimateCreateView.as_view()
 
 
@@ -92,6 +98,7 @@ class BudgetEstimateUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateVi
     success_message = _('Estimate was updated successfuly!')
     context_object_name = 'estimate'
 
+
 estimate_edit = BudgetEstimateUpdateView.as_view()
 
 
@@ -100,5 +107,6 @@ class BudgetEstimateDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "estimate/delete.html"
     success_url = reverse_lazy('budget-list')
     context_object_name = 'estimate'
+
 
 estimate_delete = BudgetEstimateDeleteView.as_view()

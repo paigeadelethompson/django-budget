@@ -5,6 +5,7 @@ import sys
 
 import django_budget_host
 
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_budget_host.settings')
