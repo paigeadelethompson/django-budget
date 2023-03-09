@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "django-budget"
-version = "1.0.0"
-description = "django-budget is a simple budgeting application for use with Django. It is designed to manage personal finances."
+name = "django-personal-finance"
+version = "0.0.1"
+description = "(formerly django-budget) a simple budgeting application for use with Django. It is designed to manage personal finances."
 license = "MIT"
 authors = ["Paige Thompson <paige@paige.bio>", "Elio E. Duarte <elio.esteves.duarte@gmail.com>"]
 #readme = "README.md"
