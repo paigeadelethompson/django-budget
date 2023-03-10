@@ -28,6 +28,9 @@ django-braces = "^1.15.0"
 django-crispy-forms = "^2.0"
 six = "^1.16.0"
 werkzeug = "^2.2.3"
+django-mfa2 = "^2.8.0"
+django-debreach = "^2.1.0"
+django-ratelimit = "^4.0.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.11.0"

@@ -24,6 +24,7 @@ LOGGING = conf.default_logging()
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 INSTALLED_APPS = [
+    'mfa',
     'crispy_forms',
     "crispy_bootstrap3",
     'django_budget.base',
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debreach.middleware.RandomCommentMiddleware',
 ]
 
 ROOT_URLCONF = 'django_budget_host.urls'
@@ -114,6 +116,28 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = conf.default_auto_field()
+
+from django.conf.global_settings import PASSWORD_HASHERS as DEFAULT_PASSWORD_HASHERS 
+
+MFA_UNALLOWED_METHODS = ()   
+MFA_LOGIN_CALLBACK = ""      
+MFA_RECHECK = True           
+MFA_REDIRECT_AFTER_REGISTRATION = "mfa_home"   
+MFA_SUCCESS_REGISTRATION_MSG = "Go to Security Home" 
+MFA_RECHECK_MIN = 10         
+MFA_RECHECK_MAX = 30         
+MFA_QUICKLOGIN = True        
+MFA_ALWAYS_GO_TO_LAST_METHOD = False 
+MFA_RENAME_METHODS = {} 
+MFA_HIDE_DISABLE = ('FIDO2',)     
+MFA_OWNED_BY_ENTERPRISE = False
+PASSWORD_HASHERS = DEFAULT_PASSWORD_HASHERS 
+PASSWORD_HASHERS += ['mfa.recovery.Hash'] 
+RECOVERY_ITERATION = 350000 
+TOKEN_ISSUER_NAME = "PROJECT_NAME"      
+U2F_APPID = "https://localhost"    
+FIDO_SERVER_ID = u"localehost"      
+FIDO_SERVER_NAME = u"PROJECT_NAME"
 
 sys.path.insert(0, str(conf.get_dot_directory()))
 from settings import *
