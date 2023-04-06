@@ -1,1 +1,46 @@
-src/django_budget_host/pyproject.linked.toml
+[tool.poetry]
+name = "django-personal-finance"
+version = "0.0.1"
+description = "(formerly django-budget) a simple budgeting application for use with Django. It is designed to manage personal finances."
+license = "MIT"
+authors = ["Paige Thompson <paige@paige.bio>", "Elio E. Duarte <elio.esteves.duarte@gmail.com>"]
+#readme = "README.md"
+packages = [{include = "django_budget", from = "src"}, {include = "django_budget_host", from = "src"}, {include = "django_budget_manage", from = "src"}]
+include = [{path = "django_budget_host/pyproject.toml", format = "sdist"}]
+readme = "README.md"
+homepage = "https://github.com/paigeadelethompson/django-budget"
+documentation = "https://github.com/paigeadelethompson/django-budget"
+repository = "https://github.com/paigeadelethompson/django-budget"
+keywords = ["Django", "budget", "planning"]
+maintainers = ["Paige Thompson <paige@paige.bio>"]
+classifiers = [
+  "Programming Language :: Python"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pytz = ">=2022.7.1,<2024.0.0"
+django-extensions = "^3.2.1"
+mock = "^5.0.1"
+crispy-bootstrap3 = "^2022.1"
+django = "^4.1.7"
+django-braces = "^1.15.0"
+django-crispy-forms = "^2.0"
+six = "^1.16.0"
+werkzeug = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.11.0"
+model-mommy = "^2.0.0"
+splinter = "^0.19.0"
+selenium = "^4.8.2"
+webdriver-manager = "^3.8.5"
+rebar = "^0.1"
+djet = {git = "https://github.com/sunscrapers/djet.git", rev = "0.2.1"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+django_budget_admin = "django_budget_manage:main"
