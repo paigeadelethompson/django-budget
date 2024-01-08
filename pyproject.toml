@@ -32,7 +32,7 @@ werkzeug = ">=2.2.3,<4.0.0"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.11.0"
 model-mommy = "^2.0.0"
-splinter = "^0.19.0"
+splinter = ">=0.19,<0.21"
 selenium = "^4.8.2"
 webdriver-manager = ">=3.8.5,<5.0.0"
 rebar = "^0.1"
